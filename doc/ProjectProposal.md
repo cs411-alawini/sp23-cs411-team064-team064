@@ -39,6 +39,7 @@ Our data contains information about the flight details of domestic flights in 20
 
 # UI Mockup:
 
+<img width="700" height="370" src="https://github.com/cs411-alawini/sp23-cs411-team064-team064/doc/411_UI_mockup.jpg">
 
 
 ## Project work distribution:
