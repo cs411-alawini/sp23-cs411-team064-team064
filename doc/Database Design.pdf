@@ -1,0 +1,35 @@
+CREATE TABLE Flights (
+    FlightID VARCHAR NOT NULL,
+    Airline VARCHAR,
+    PRIMARY KEY (FlightID),
+);
+
+CREATE TABLE FlightDetails {
+    FlightID VARCHAR NOT NULL,
+    Origin CHAR(3),
+    Destinaion CHAR(3),
+    FlightDate DATE,
+    PRIMARY KEY (FlightID),
+    FOREIGN KEY (FlightID) REFERENCES Flights(FlightID),
+        ON DELETE CASCADE
+};
+
+CREATE TABLE Cancellations {
+    FlightID VARCHAR NOT NULL,
+    Diverted BIT,
+    Cancelled BIT,
+    PRIMARY KEY (FlightID),
+    FOREIGN KEY (FlightID) REFERENCES Flights(FlightID),
+        ON DELETE CASCADE
+};
+
+CREATE TABLE Delays {
+    FlightID VARCHAR NOT NULL,
+    DepartureTime INT,
+    ArrivalTime INT,
+    DepartureDelay INT,
+    ArrivalDelay INT,
+    PRIMARY KEY (FlightID),
+    FOREIGN KEY (FlightID) REFERENCES Flights(FlightID),
+        ON DELETE CASCADE
+};
