@@ -9,7 +9,7 @@ Our database will contain data from a Kaggle dataset sourced from the U.S. DOT B
 ## Basic Functions:
 
 Users can enter their upcoming travel information (ex: date MM/DD/YYYY, origin/destination airport, etc) and our website will output the airline that will have the estimated least delay time or cancellation information based on flight data from 2015. 
-They can also enter in an origin and destination to find the best time of day or year and airline to fly that statistically has the fewest delays/cancellations.
+They can also enter in an origin and destination to find the best time of day or year and airline to fly that statistically has the fewest delays/cancellations. Users will also be able to update to our database by providing their recent flight information (date, origin/destination, minutes delayed, etc.). Additionally, we, as admins of the database and website, will be able to delete any entries that we deem to be false information.
 
 ## Creative Component:
 
