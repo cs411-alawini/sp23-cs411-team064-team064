@@ -1,35 +1,44 @@
-CREATE TABLE Flights (
-    FlightID VARCHAR NOT NULL,
-    Airline VARCHAR,
-    PRIMARY KEY (FlightID),
-);
+CREATE TABLE Customer {
+    CustomerId INT,
+    Username VARCHAR(50),
+    Password_ VARCHAR(25),
+    PRIMARY KEY(CustomerId)
+};
 
-CREATE TABLE FlightDetails {
-    FlightID VARCHAR NOT NULL,
-    Origin CHAR(3),
-    Destinaion CHAR(3),
-    FlightDate DATE,
-    PRIMARY KEY (FlightID),
+CREATE TABLE Schedule {
+    FlightId INT,
+    CustomerId INT,
+    PRIMARY KEY(FlightId, CustomerId)
     FOREIGN KEY (FlightID) REFERENCES Flights(FlightID),
+        ON DELETE CASCADE
+    FOREIGN KEY (FlightID) REFERENCES Customer(CustomerId),
         ON DELETE CASCADE
 };
 
+CREATE TABLE Flights {
+    FlightId: INT,
+    Airline VARCHAR(50),
+    Origin VARCHAR(3),
+    Destinaion VARCHAR(3),
+    FlightDate: DATE,
+    DepartTime INT,
+    PRIMARY KEY(FlightId)
+};
+
 CREATE TABLE Cancellations {
-    FlightID VARCHAR NOT NULL,
-    Diverted BIT,
-    Cancelled BIT,
-    PRIMARY KEY (FlightID),
+    FlightId INT,
+    Diverted: BIT,
+    Cancelled: BIT,
+    PRIMARY KEY(FlightId)
     FOREIGN KEY (FlightID) REFERENCES Flights(FlightID),
         ON DELETE CASCADE
 };
 
 CREATE TABLE Delays {
-    FlightID VARCHAR NOT NULL,
-    DepartureTime INT,
-    ArrivalTime INT,
+    FlightId INT,
     DepartureDelay INT,
     ArrivalDelay INT,
-    PRIMARY KEY (FlightID),
+    PRIMARY KEY(FlightId)
     FOREIGN KEY (FlightID) REFERENCES Flights(FlightID),
         ON DELETE CASCADE
 };
