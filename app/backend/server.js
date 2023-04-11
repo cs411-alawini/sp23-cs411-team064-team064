@@ -57,16 +57,16 @@ app.post('/api/customer-update', function(req, res) {
 // Search for avg airline delay filtered by origin, destination, Month
 // NOTE: TEST THIS QUERY ON WORKBENCH
 app.get('/api/airlines-most-delayed', function(req, res) {
-        let Origin = req.query.Origin;
-        let Destination = req.query.Destination;
-        let Month = req.query.Month;
+        let Origin_ = req.query.Origin;
+        let Destination_ = req.query.Destination;
+        let Month_ = req.query.Month;
 
         // if (Month == 10) {
         //     Month = 9;
         // }
     
-        const sqlMostDelay = "SELECT Airline, AVG(ArrivalDelay) as avgDelay FROM Flights NATURAL JOIN Delays WHERE Origin = ? AND Destination = ? AND Month = ? ORDER BY cCount DESC LIMIT 5";
-        connection.query(sqlMostDelay, [Origin, Destination, Month], (err, result) => {
+        const sqlMostDelay = "SELECT Airline, AVG(ArrivalDelay) as avgDelay FROM Flights NATURAL JOIN Delays WHERE Origin = ? AND Destination = ? AND Month = ? GROUP BY Airline ORDER BY avgDelay DESC LIMIT 5";
+        db.query(sqlMostDelay, [Origin_, Destination_, Month_], (err, result) => {
             res.send(result);
             console.log(err);
         });

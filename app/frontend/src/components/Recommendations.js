@@ -46,14 +46,13 @@ return (
                 <Heading>
                     Your Recommendations:
                 </Heading>
-                Travel Details: <br/>
                 Origin: {originAirport} <br/>
                 Destination: {destinationAirport} <br/>
                 Month: {month_} <br/>
             </div>
             <div>
                 Worst Airlines based on Travel Details: <br/>
-                Airline, Average Delay Time<br/>
+                Airline, Average Delay Time (Minutes) <br/>
                 {avgDelays.map(data => (
                     <p> {data.Airline} {data.avgDelay}</p>
                 ))}
