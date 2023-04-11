@@ -2,13 +2,13 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mysql = require('mysql2');
 var path = require('path');
-var connection = mysql.createConnection({
+var db = mysql.createConnection({
         host:'34.173.6.203',
         user: 'root',
         password:'team064pass',
         database:'flights'
 });
-connection.connect;
+db.connect;
 
 var app = express();
 
@@ -18,7 +18,7 @@ app.use(express.json());
 
 // test query 
 app.get('/', function(req, res) {
-        var queryTest = connection.query('SELECT COUNT(FlightID) AS cCount FROM Flights', function(err, rows, fields) {
+        var queryTest = db.query('SELECT COUNT(FlightID) AS cCount FROM Flights', function(err, rows, fields) {
                 res.send(rows);
                 console.log(rows);
         })
@@ -26,7 +26,16 @@ app.get('/', function(req, res) {
 
 // advanced query 1
 app.get('/api/delay-10', function(req, res) {
-        const sqlDelay10 = "SELECT COUNT(*) AS cCount FROM Flights NATURAL JOIN Delays WHERE Airline = 'AA' AND DeparturDelay > 10 GROUP BY Month LIMIT 15";
+        const sqlDelay10 = "SELECT Month, COUNT(*) AS cCount FROM Flights NATURAL JOIN Delays WHERE Airline = 'AA' AND DepartureDelay > 10 GROUP BY Month LIMIT 15";
+        db.query(sqlDelay10, (err, result) => {
+                res.send(result);
+                console.log(err);
+        })
+});
+
+// advanced query 2
+app.get('/api/cancelledDFW-SFO', function(req, res) {
+        const sqlDelay10 = "SELECT Airline, COUNT(*) AS cCount FROM Flights NATURAL JOIN Cancellations WHERE Destination = 'DFW' AND Origin = 'SFO' AND Cancelled = 1 GROUP BY Airline LIMIT 15";
         db.query(sqlDelay10, (err, result) => {
                 res.send(result);
                 console.log(err);
@@ -40,10 +49,30 @@ app.post('/api/customer-update', function(req, res) {
         const LastName = req.body.LastName;
 
         const sqlInsert = "INSERT INTO Customers (FirstName, LastName) VALUES (?,?)";
-        connection.query(sqlInsert, [FirstName, LastName], (err, result) => {
+        db.query(sqlInsert, [FirstName, LastName], (err, result) => {
                 console.log(err);
         })
 });
+
+// Search for avg airline delay filtered by origin, destination, Month
+// NOTE: TEST THIS QUERY ON WORKBENCH
+app.get('/api/airlines-most-delayed', function(req, res) {
+        let Origin = req.query.Origin;
+        let Destination = req.query.Destination;
+        let Month = req.query.Month;
+
+        // if (Month == 10) {
+        //     Month = 9;
+        // }
+    
+        const sqlMostDelay = "SELECT Airline, AVG(ArrivalDelay) as avgDelay FROM Flights NATURAL JOIN Delays WHERE Origin = ? AND Destination = ? AND Month = ? ORDER BY cCount DESC LIMIT 5";
+        connection.query(sqlMostDelay, [Origin, Destination, Month], (err, result) => {
+            res.send(result);
+            console.log(err);
+        });
+    });
+
+
 
 app.listen(3002, function () {
         console.log('Node app is running on port 3002');

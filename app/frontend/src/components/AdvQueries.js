@@ -9,13 +9,22 @@ const AdvQueries = () => {
     
 
     // retrieve adv query 1
-    const [aaDelay, setaaDelay] = useState("0");
+    const [aaDelay, setaaDelay] = useState([]);
     useEffect(() => {
         axios.get('http://localhost:3002/api/delay-10').then((response) => {
             setaaDelay(response.data)
-            // console.log(response.data[0].ccount);
+            console.log(response.data);
         })
-    }, [])
+    }, []);
+
+    // retrieve adv query 2
+    const [canclledDFW, setacanclledDFW] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:3002//api/cancelledDFW-SFO').then((response) => {
+            setacanclledDFW(response.data)
+            console.log(response.data);
+        })
+    }, []);
 
     return (
         <div>
@@ -23,10 +32,21 @@ const AdvQueries = () => {
               Number of AA Flights Delayed over 10 minutes, by month: <br /> 
               <div>
                   {aaDelay.map(data => (
-                      <p> {data.cCount} </p>
+                      <p> {data.Month}:  {data.cCount} </p>
                   ))}
               </div>
-          </div>
+            </div>
+
+            {/* FIX THIS ONE (not displaying data for some reason) */}
+            <div>
+              Number of Flights Cancelled from SFO to DFW by Airline: <br /> 
+              <div>
+                  {canclledDFW.map(data => (
+                      <p> {data.Airline}:  {data.cCount} </p>
+                  ))}
+              </div>
+            </div>
+
         </div>
       )
 }
