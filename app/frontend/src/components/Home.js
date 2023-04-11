@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
+import '../App.css'
 
-import { Button, Heading, Container, Stack, Input } from '@chakra-ui/react'
+import { Button, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
 
 import axios from "axios";
 
@@ -39,6 +40,27 @@ const Home = () => {
     const [origin, setOrigin] = useState('');
     const [destination, setDestination] = useState('');
     const [month, setMonth] = useState('');
+
+
+    // For month dropdown menu
+    const handleOptionClick = event => {
+        const selectedOption = event.target.value;
+        setMonth(selectedOption);
+      };
+    const options = [
+        { label: "January", value: 1 },
+        { label: "February", value: 2 },
+        { label: "March", value: 3 },
+        { label: "April", value: 4 },
+        { label: "May", value: 5 },
+        { label: "June", value: 6 },
+        { label: "July", value: 7 },
+        { label: "August", value: 8 },
+        { label: "September", value: 9 },
+        { label: "October", value: 10 },
+        { label: "November", value: 11 },
+        { label: "December", value: 12 },
+      ];
 
   return (
     <div>
@@ -84,21 +106,20 @@ const Home = () => {
                 size='md'
                 />
 
-                <Input
-                placeholder='Enter Travel Month (Numerical, ex: 2):'
-                id="month_"
-                name="month_"
-                type="int"
-                onChange={event => setMonth(event.target.value)}
-                value={month}
-                />
+                <Menu>
+                    <MenuButton as={Button}>{month || "Select Month"}</MenuButton>
+                    <MenuList>
+                        {options.map(option => (
+                        <MenuItem key={option.value} value={option.value} onClick={handleOptionClick}>
+                            {option.label}
+                        </MenuItem>
+                        ))}
+                    </MenuList>
+                </Menu>
 
             </Stack>
             
-            {/* <br />
-            <Button type="submit">Submit</Button> <br />
-            <br /> */}
-            <Button type="submit" onClick={navigateToRec}>
+            <Button className='submit-button' type="submit" onClick={navigateToRec}>
                 Click for Recommendations!
             </Button> 
 

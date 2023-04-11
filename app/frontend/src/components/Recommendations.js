@@ -23,7 +23,7 @@ const month_ = location.state.month;
 
 const [avgDelays, setAvgDelays] = useState([]);
 useEffect(() => {
-    axios.get('http://localhost:3002/api/airlines-most-delayed', {
+    axios.get('http://localhost:3002/api/airlines-least-delayed', {
         params: {
             Origin: originAirport,
             Destination: destinationAirport,
@@ -31,13 +31,21 @@ useEffect(() => {
         }
     }).then((response) => {
         setAvgDelays(response.data);
-        console.log("potentialFlights", response.data);
+        console.log("delayed airlines", response.data);
     }).catch((error) => {
         console.error(error);
     });
 }, []);
 
 
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+const months = Array.from({ length: 13 }, (_, index) => index + 1).map((month) => {
+return monthNames[month - 2];
+});
 
 return (
     <div>
@@ -48,13 +56,13 @@ return (
                 </Heading>
                 Origin: {originAirport} <br/>
                 Destination: {destinationAirport} <br/>
-                Month: {month_} <br/>
+                Month: {months[month_]} <br/>
             </div>
             <div>
-                Worst Airlines based on Travel Details: <br/>
+                Best Airlines based on Travel Details: <br/>
                 Airline, Average Delay Time (Minutes) <br/>
                 {avgDelays.map(data => (
-                    <p> {data.Airline} {data.avgDelay}</p>
+                    <p> {data.Airline} {Math.round(data.avgDelay * 100) / 100}</p>
                 ))}
             </div>
 
