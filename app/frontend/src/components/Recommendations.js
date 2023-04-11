@@ -3,6 +3,8 @@ import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
+import '../App.css'
+
 import { Button, Heading, Stack } from '@chakra-ui/react'
 
 import axios from "axios";
@@ -65,7 +67,6 @@ return (
                     <p> {data.Airline} {Math.round(data.avgDelay * 100) / 100}</p>
                 ))}
             </div>
-
 
             <Button onClick={navigateHome}>
                 Try another flight

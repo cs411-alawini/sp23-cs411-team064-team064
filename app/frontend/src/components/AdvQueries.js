@@ -2,11 +2,17 @@ import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Heading } from '@chakra-ui/react'
 
+import '../App.css'
 
 import axios from "axios";
 
 const AdvQueries = () => {
     
+    // navigate home
+    let navigate = useNavigate();
+    const navigateHome = () => {
+        navigate('/');
+    }
 
     // retrieve adv query 1
     const [aaDelay, setaaDelay] = useState([]);
@@ -20,7 +26,7 @@ const AdvQueries = () => {
     // retrieve adv query 2
     const [canclledDFW, setacanclledDFW] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:3002//api/cancelledDFW-SFO').then((response) => {
+        axios.get('http://localhost:3002/api/cancelledDFW-SFO').then((response) => {
             setacanclledDFW(response.data)
             console.log(response.data);
         })
@@ -37,7 +43,6 @@ const AdvQueries = () => {
               </div>
             </div>
 
-            {/* FIX THIS ONE (not displaying data for some reason) */}
             <div>
               Number of Flights Cancelled from SFO to DFW by Airline: <br /> 
               <div>
@@ -47,7 +52,13 @@ const AdvQueries = () => {
               </div>
             </div>
 
+            <div>
+                <Button onClick={navigateHome}>
+                    Back
+                </Button>
+            </div>
         </div>
+
       )
 }
 

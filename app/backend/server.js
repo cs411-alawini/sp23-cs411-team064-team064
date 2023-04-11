@@ -43,13 +43,22 @@ app.get('/api/cancelledDFW-SFO', function(req, res) {
 });
 
 
-// add new customer information
-app.post('/api/customer-update', function(req, res) {
-        const FirstName = req.body.FirstName;
-        const LastName = req.body.LastName;
+// add new flight data
+app.post('/api/add-data', function(req, res) {
+        const FirstName_ = req.body.FirstName;
+        const LastName_ = req.body.LastName;
+        const Airline_ = req.body.Airline;
+        const Origin_ = req.body.Origin;
+        const Destination_ = req.body.Destination;
+        const Month_ = req.body.Month;
+        // const ArrivalDelay_ = req.body.ArrivalDelay;
 
-        const sqlInsert = "INSERT INTO Customers (FirstName, LastName) VALUES (?,?)";
-        db.query(sqlInsert, [FirstName, LastName], (err, result) => {
+        const sqlInsertCustomer = "INSERT INTO Customer (First_Name, Last_Name) VALUES (?,?)";
+        db.query(sqlInsert, [FirstName_, LastName_], (err, result) => {
+                console.log(err);
+        });
+        const sqlInsertFlights = "INSERT INTO Flights (Airline, Origin, Destination, Month) VALUES (?,?,?,?)";
+        db.query(sqlInsert, [Airline_, Origin_, Destination_, Month_], (err, result) => {
                 console.log(err);
         })
 });
@@ -69,8 +78,19 @@ app.get('/api/airlines-least-delayed', function(req, res) {
             res.send(result);
             console.log(err);
         });
-    });
+});
 
+// Update name
+app.put('/api/update-name', function(req, res) {
+        const NewFirstName = req.body.NewFirstName;
+        const FirstName = req.body.FirstName;
+        const LastName = req.body.LastName;
+
+        const sqlNameUpdate = "UPDATE Customer SET First_Name = ? WHERE First_Name = ? AND Last_Name = ?";
+        db.query(sqlNameUpdate, [NewFirstName, FirstName, LastName], (err, result) => {
+                console.log(err);
+        })
+});
 
 
 app.listen(3002, function () {

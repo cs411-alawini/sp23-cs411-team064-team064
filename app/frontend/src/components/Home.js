@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
 
-import { Button, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
+import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
 
 import axios from "axios";
 
@@ -14,11 +14,21 @@ const Home = () => {
         navigate('advQueries');
     }
 
+    // page navigation to Advanced Queries page
+    const navigateToAddData = () => {
+        navigate('addData');
+    }
+
     // page navigation to Recommendations page
     const navigateToRec = () => {
         navigate('/recommendations', {state: {origin: origin,
                                     destination: destination,
                                     month: month}});
+    }
+
+    // page navigation to Update Name page
+    const navigateToUpName = () => {
+        navigate('updateName');
     }
 
     // handle submit should insert new customer info into database
@@ -41,12 +51,11 @@ const Home = () => {
     const [destination, setDestination] = useState('');
     const [month, setMonth] = useState('');
 
-
     // For month dropdown menu
     const handleOptionClick = event => {
         const selectedOption = event.target.value;
         setMonth(selectedOption);
-      };
+    };
     const options = [
         { label: "January", value: 1 },
         { label: "February", value: 2 },
@@ -65,15 +74,30 @@ const Home = () => {
   return (
     <div>
         <div>
-            <Heading>
-            Flight Recommendations
-            </Heading>
-            Num flightIds: {num} <br /> 
-            <Button onClick={navigateToAdv}>
-                Click for advanced queries
-            </Button> 
-        </div>
+            <Center className="title">
+                <Heading>
+                Flight Recommendations
+                </Heading>
+            </Center>
+            <Center>
+                Number of Flights in Database: {num} <br /> 
+            </Center>
+            <Container className='button-container'>            
+                <Button onClick={navigateToAdv}>
+                    Click for advanced queries
+                </Button> 
 
+                <Button className='contribute-button' onClick={navigateToAddData}>
+                    Contribute to Database
+                </Button> 
+
+                <Button className='update-name-button' onClick={navigateToUpName}>
+                    Update Peronsal Info
+                </Button> 
+            </Container>
+            
+            
+        </div>
 
         <div>
         <Container>
@@ -84,44 +108,44 @@ const Home = () => {
             <br/>
             <form onSubmit={handleSubmit}>
 
-            <Stack spacing={3}>
+                <Stack spacing={3}>
 
-                <Input
-                placeholder='Enter Origin Airport (ex: SFO)'
-                id="origin_"
-                name="origin_"
-                type="text"
-                onChange={event => setOrigin(event.target.value)}
-                value={origin}
-                size='md'
-                />
+                    <Input
+                    placeholder='Origin Airport (ex: SFO)'
+                    id="origin_"
+                    name="origin_"
+                    type="text"
+                    onChange={event => setOrigin(event.target.value)}
+                    value={origin}
+                    size='md'
+                    />
 
-                <Input
-                placeholder='Enter Destination Airport (ex: ORD)'
-                id="destination_"
-                name="destination_"
-                type="text"
-                onChange={event => setDestination(event.target.value)}
-                value={destination}
-                size='md'
-                />
+                    <Input
+                    placeholder='Destination Airport (ex: ORD)'
+                    id="destination_"
+                    name="destination_"
+                    type="text"
+                    onChange={event => setDestination(event.target.value)}
+                    value={destination}
+                    size='md'
+                    />
 
-                <Menu>
-                    <MenuButton as={Button}>{month || "Select Month"}</MenuButton>
-                    <MenuList>
-                        {options.map(option => (
-                        <MenuItem key={option.value} value={option.value} onClick={handleOptionClick}>
-                            {option.label}
-                        </MenuItem>
-                        ))}
-                    </MenuList>
-                </Menu>
+                    <Menu>
+                        <MenuButton as={Button}>{month || "Select Month"}</MenuButton>
+                        <MenuList>
+                            {options.map(option => (
+                            <MenuItem key={option.value} value={option.value} onClick={handleOptionClick}>
+                                {option.label}
+                            </MenuItem>
+                            ))}
+                        </MenuList>
+                    </Menu>
 
-            </Stack>
-            
-            <Button className='submit-button' type="submit" onClick={navigateToRec}>
-                Click for Recommendations!
-            </Button> 
+                </Stack>
+                
+                <Button className='submit-button' type="submit" onClick={navigateToRec}>
+                    Click for Recommendations!
+                </Button> 
 
         </form>
         </Container>
