@@ -6,6 +6,13 @@ import '../App.css'
 import axios from "axios";
 
 const AddData = () => {
+    // variables for this page
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [airline, setAirline] = useState('');
+    const [origin, setOrigin] = useState('');
+    const [destination, setDestination] = useState('');
+    const [month, setMonth] = useState('');
     
     // navigate home
     let navigate = useNavigate();
@@ -13,20 +20,28 @@ const AddData = () => {
         navigate('/');
     }
 
-    // handle submit should insert new customer info into database
+    // handle submit should update flights
     const handleSubmit = event => {
-        console.log('submitted form');
+        console.log('handleSubmit run');
         event.preventDefault();  // prevent page refresh
+
+        axios.post('http://localhost:3002/api/add-data', {
+            FirstName: firstName,
+            LastName: lastName,
+            Airline: airline,
+            Origin: origin,
+            Destination: destination,
+            Month: month
+        }).then(() => {
+            alert(('success'))
+        })   
     }
 
-    // variables for form below
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [airline, setAirline] = useState('');
-    const [origin, setOrigin] = useState('');
-    const [destination, setDestination] = useState('');
-    const [month, setMonth] = useState('');
-
+    // for displaying verification msg after submit button clicked
+    const [message, setMessage] = useState(null);
+    const handleClick = () => {
+        setMessage("Information updated for flight from " + origin + " to " + destination);
+    };
 
     // For month dropdown menu
     const handleOptionClick = event => {
@@ -111,24 +126,24 @@ const AddData = () => {
                         />
 
                         <Menu>
-                            <MenuButton as={Button}>{month || "Travel Month"}</MenuButton>
+                            <MenuButton as={Button}>{month || "Select Month"}</MenuButton>
                             <MenuList>
                                 {options.map(option => (
-                                <MenuItem key={options.value} value={options.value} onClick={handleSubmit}>
-                                    {options.label}
+                                <MenuItem key={option.value} value={option.value} onClick={handleOptionClick}>
+                                    {option.label}
                                 </MenuItem>
                                 ))}
                             </MenuList>
                         </Menu>
 
                     </Stack>
-
+                    <Button type="submit" className='add-data-submit-button' onClick={handleClick}>Submit</Button> <br />
+                    {message && <p>{message}</p>}
             </form>
             </Container>
 
-            {/* <Button className='submit-button' type="submit" onClick={navigateToRec}>
-                Click for Recommendations!
-            </Button>  */}
+            <br />
+            
 
             <Button className='add-data-back-button' onClick={navigateHome}>
                 back

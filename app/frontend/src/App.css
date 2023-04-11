@@ -10,6 +10,13 @@
   color: green;
 }
 
+.add-data-submit-button {
+  background-color: rgb(116, 194, 116);
+  margin-top: 2%;
+  /* margin-left: 31%; */
+  color: green;
+}
+
 .month-button {
   background-color: white;
   color: gray;
@@ -30,8 +37,13 @@
   margin-left: 30%;
 }
 
-.add-data-back-button {
+.update-name-back-button {
   margin-top: 10%;
+  margin-left: 31%;
+}
+
+.add-data-back-button {
+  margin-top: 2%;
   margin-left: 31%;
 }
 

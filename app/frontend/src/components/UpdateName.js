@@ -23,7 +23,7 @@ const AddData = () => {
             FirstName: firstName,
             LastName: lastName
         }).then(() => {
-            console.log('successful email update')
+            console.log('successful update')
         })   
     }
 
@@ -83,17 +83,14 @@ const AddData = () => {
                     </Stack>
 
                     <br />
-                    <Button type="submit" onClick={handleClick}>Submit</Button> <br />
+                    <Button type="submit" className='submit-button' onClick={handleClick}>Submit</Button> <br />
                     {message && <p>{message}</p>}
 
             </form>
             </Container>
 
-            {/* <Button className='submit-button' type="submit" onClick={navigateToRec}>
-                Click for Recommendations!
-            </Button>  */}
 
-            <Button className='add-data-back-button' onClick={navigateHome}>
+            <Button className='update-name-back-button' onClick={navigateHome}>
                 Back to Main Page
             </Button>
 

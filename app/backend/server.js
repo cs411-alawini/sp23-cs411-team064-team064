@@ -42,27 +42,6 @@ app.get('/api/cancelledDFW-SFO', function(req, res) {
         })
 });
 
-
-// add new flight data
-app.post('/api/add-data', function(req, res) {
-        const FirstName_ = req.body.FirstName;
-        const LastName_ = req.body.LastName;
-        const Airline_ = req.body.Airline;
-        const Origin_ = req.body.Origin;
-        const Destination_ = req.body.Destination;
-        const Month_ = req.body.Month;
-        // const ArrivalDelay_ = req.body.ArrivalDelay;
-
-        const sqlInsertCustomer = "INSERT INTO Customer (First_Name, Last_Name) VALUES (?,?)";
-        db.query(sqlInsert, [FirstName_, LastName_], (err, result) => {
-                console.log(err);
-        });
-        const sqlInsertFlights = "INSERT INTO Flights (Airline, Origin, Destination, Month) VALUES (?,?,?,?)";
-        db.query(sqlInsert, [Airline_, Origin_, Destination_, Month_], (err, result) => {
-                console.log(err);
-        })
-});
-
 // Search for avg airline delay filtered by origin, destination, Month
 app.get('/api/airlines-least-delayed', function(req, res) {
         let Origin_ = req.query.Origin;
@@ -89,6 +68,26 @@ app.put('/api/update-name', function(req, res) {
         const sqlNameUpdate = "UPDATE Customer SET First_Name = ? WHERE First_Name = ? AND Last_Name = ?";
         db.query(sqlNameUpdate, [NewFirstName, FirstName, LastName], (err, result) => {
                 console.log(err);
+        })
+});
+
+// add new flight data
+app.post('/api/add-data', function(req, res) {
+        const FirstName_ = req.body.FirstName;
+        const LastName_ = req.body.LastName;
+        const Airline_ = req.body.Airline;
+        const Origin_ = req.body.Origin;
+        const Destination_ = req.body.Destination;
+        const Month_ = req.body.Month;
+        // const ArrivalDelay_ = req.body.ArrivalDelay;
+
+        const sqlInsertCustomer = "INSERT INTO Customer (First_Name, Last_Name) VALUES (?,?)";
+        db.query(sqlInsertCustomer, [FirstName_, LastName_], (err, result) => {
+                console.log(err);
+        });
+        const sqlInsertFlights = "INSERT INTO Flights (Airline, Origin, Destination, Month) VALUES (?,?,?,?)";
+        db.query(sqlInsertFlights, [Airline_, Origin_, Destination_, Month_], (err1, result1) => {
+                console.log(err1);
         })
 });
 
