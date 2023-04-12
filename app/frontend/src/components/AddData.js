@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text, FormControl } from '@chakra-ui/react'
+import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text, FormControl, Select } from '@chakra-ui/react'
 import '../App.css'
 
 import axios from "axios";
@@ -25,10 +25,7 @@ const AddData = () => {
         console.log('handleSubmit run');
         event.preventDefault();  // prevent page refresh
 
-        if (!validateFields()) {
-            alert("Form has errors");
-        } else {
-
+        if (validateFields()) {
             axios.post('http://localhost:3002/api/add-data', {
                 FirstName: firstName,
                 LastName: lastName,
@@ -160,7 +157,9 @@ const AddData = () => {
                                 </MenuItem>
                                 ))}
                             </MenuList>
+                            
                         </Menu>
+                        
 
                     </Stack>
                     <Button type="submit" className='add-data-submit-button' onClick={handleClick}>Submit</Button> <br />
