@@ -91,19 +91,6 @@ app.post('/api/add-data', function(req, res) {
         })
 });
 
-// delete user info
-app.delete('/api/delete-user', function(req, res) {
-        const FirstName_ = req.params.FirstName;
-        const LastName_ = req.params.LastName;
-        const sqlSafe = "SET SQL_SAFE_UPDATES = 0"
-        const sqlDelete = "DELETE FROM Customer WHERE First_Name = ? AND Last_Name = ?";
-        db.query(sqlSafe, (err, result) => {
-                console.log(err);
-        });
-        db.query(sqlDelete, [FirstName_, LastName_], (err, result) => {
-                console.log(err);
-        });
-});
 
 app.listen(3002, function () {
         console.log('Node app is running on port 3002');

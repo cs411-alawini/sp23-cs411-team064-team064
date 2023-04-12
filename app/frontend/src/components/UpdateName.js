@@ -14,72 +14,23 @@ const AddData = () => {
     }
 
     // handle submit should update first name
-    // const handleSubmit = event => {
-    //     console.log('handleSubmit run');
-    //     event.preventDefault();  // prevent page refresh
+    const handleSubmit = event => {
+        console.log('handleSubmit run');
+        event.preventDefault();  // prevent page refresh
 
-    //     axios.put('http://localhost:3002/api/update-name', {
-    //         NewFirstName: newFirstName,
-    //         FirstName: firstName,
-    //         LastName: lastName
-    //     }).then(() => {
-    //         console.log('successful update')
-    //     })   
-    // }
-
-    function validateUpdateFields() {
-        let isValid = true;
-        if (!firstName || !lastName || !newFirstName) {
-            isValid = false;
-        }
-        return isValid;
-      }
-
-      function validateDeleteFields() {
-        let isValid = true;
-        if (!firstName || !lastName) {
-            isValid = false;
-        }
-        return isValid;
-      }
+        axios.put('http://localhost:3002/api/update-name', {
+            NewFirstName: newFirstName,
+            FirstName: firstName,
+            LastName: lastName
+        }).then(() => {
+            console.log('successful update')
+        })   
+    }
 
     // for displaying verification msg after user update button clicked
     const [message, setMessage] = useState(null);
-    
-    //action for update name button
-    const handleClickUpdate = (event) => {
-        console.log('handleSubmit run');
-        event.preventDefault();  // prevent page refresh
-
-        if (!validateUpdateFields()) {
-            setMessage("One or more required fields are missing.");
-        } else {
-            axios.put('http://localhost:3002/api/update-name', {
-                NewFirstName: newFirstName,
-                FirstName: firstName,
-                LastName: lastName
-            }).then(() => {
-                console.log('successful update')
-            })   
-            setMessage("Name changed from " + firstName + " to " + newFirstName + "!");
-    }
-    };
-
-    // action for delete button
-    const handleClickDelete = (event) => {
-        console.log('handleSubmit run');
-        event.preventDefault();  // prevent page refresh
-        if (!validateDeleteFields()) {
-            setMessage("One or more required fields are missing.");
-        } else {
-            axios.delete('http://localhost:3002/api/delete-user', {
-                FirstName: firstName,
-                LastName: lastName
-            }).then(() => {
-                console.log('successful delete')
-            })   
-            setMessage("Delete user information for: " + firstName + " " + lastName);
-    }
+    const handleClick = () => {
+        setMessage("Name changed from " + firstName + " to " + newFirstName + "!");
     };
 
     // variables for form below
@@ -95,7 +46,7 @@ const AddData = () => {
                     Enter Details:
                 </Heading>
                 <br/>
-                <form>
+                <form onSubmit={handleSubmit}>
 
                     <Stack spacing={3}>
 
@@ -138,8 +89,7 @@ const AddData = () => {
                     </Stack>
 
                     <br />
-                    <Button type="submit" className='submit-button' onClick={handleClickUpdate}>Update Name</Button> <br />
-                    <Button type="submit" className='submit-button-delete' onClick={handleClickDelete}>Delete User</Button> <br />
+                    <Button type="submit" className='submit-button' onClick={handleClick}>Submit</Button> <br />
                     {message && <p>{message}</p>}
 
             </form>
