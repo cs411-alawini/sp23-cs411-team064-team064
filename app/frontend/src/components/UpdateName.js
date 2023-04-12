@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
+import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text, FormControl } from '@chakra-ui/react'
 import '../App.css'
 
 import axios from "axios";
@@ -27,6 +27,22 @@ const AddData = () => {
     //     })   
     // }
 
+    function validateUpdateFields() {
+        let isValid = true;
+        if (!firstName || !lastName || !newFirstName) {
+            isValid = false;
+        }
+        return isValid;
+      }
+
+      function validateDeleteFields() {
+        let isValid = true;
+        if (!firstName || !lastName) {
+            isValid = false;
+        }
+        return isValid;
+      }
+
     // for displaying verification msg after user update button clicked
     const [message, setMessage] = useState(null);
     
@@ -35,27 +51,35 @@ const AddData = () => {
         console.log('handleSubmit run');
         event.preventDefault();  // prevent page refresh
 
-        axios.put('http://localhost:3002/api/update-name', {
-            NewFirstName: newFirstName,
-            FirstName: firstName,
-            LastName: lastName
-        }).then(() => {
-            console.log('successful update')
-        })   
-        setMessage("Name changed from " + firstName + " to " + newFirstName + "!");
+        if (!validateUpdateFields()) {
+            setMessage("One or more required fields are missing.");
+        } else {
+            axios.put('http://localhost:3002/api/update-name', {
+                NewFirstName: newFirstName,
+                FirstName: firstName,
+                LastName: lastName
+            }).then(() => {
+                console.log('successful update')
+            })   
+            setMessage("Name changed from " + firstName + " to " + newFirstName + "!");
+    }
     };
 
     // action for delete button
     const handleClickDelete = (event) => {
         console.log('handleSubmit run');
         event.preventDefault();  // prevent page refresh
-        axios.delete('http://localhost:3002/api/delete-user', {
-            FirstName: firstName,
-            LastName: lastName
-    }).then(() => {
-            console.log('successful delete')
-        })   
-        setMessage("Delete user information for: " + firstName + " " + lastName);
+        if (!validateDeleteFields()) {
+            setMessage("One or more required fields are missing.");
+        } else {
+            axios.delete('http://localhost:3002/api/delete-user', {
+                FirstName: firstName,
+                LastName: lastName
+            }).then(() => {
+                console.log('successful delete')
+            })   
+            setMessage("Delete user information for: " + firstName + " " + lastName);
+    }
     };
 
     // variables for form below
@@ -75,6 +99,7 @@ const AddData = () => {
 
                     <Stack spacing={3}>
 
+                        <FormControl isRequired>
                         <Input
                         placeholder='First Name'
                         id="first_name_"
@@ -84,7 +109,9 @@ const AddData = () => {
                         value={firstName}
                         size='md'
                         />
+                        </FormControl>
 
+                        <FormControl isRequired>
                         <Input
                         placeholder='Last Name'
                         id="last_name_"
@@ -94,7 +121,9 @@ const AddData = () => {
                         value={lastName}
                         size='md'
                         />
+                        </FormControl>
 
+                        <FormControl isRequired>
                         <Input
                         placeholder='New First Name'
                         id="new_first_name_"
@@ -104,6 +133,7 @@ const AddData = () => {
                         value={newFirstName}
                         size='md'
                         />
+                        </FormControl>
 
                     </Stack>
 
