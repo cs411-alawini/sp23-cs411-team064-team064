@@ -92,7 +92,7 @@ const Home = () => {
                 </Button> 
 
                 <Button className='update-name-button' onClick={navigateToUpName}>
-                    Update Peronsal Info
+                    Update Personal Info
                 </Button> 
             </Container>
             
