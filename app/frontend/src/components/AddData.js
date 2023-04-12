@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text, FormControl, Select } from '@chakra-ui/react'
+import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
 import '../App.css'
 
 import axios from "axios";
@@ -25,36 +25,22 @@ const AddData = () => {
         console.log('handleSubmit run');
         event.preventDefault();  // prevent page refresh
 
-        if (validateFields()) {
-            axios.post('http://localhost:3002/api/add-data', {
-                FirstName: firstName,
-                LastName: lastName,
-                Airline: airline,
-                Origin: origin,
-                Destination: destination,
-                Month: month
-            }).then(() => {
-                alert(('success'))
-            })   
+        axios.post('http://localhost:3002/api/add-data', {
+            FirstName: firstName,
+            LastName: lastName,
+            Airline: airline,
+            Origin: origin,
+            Destination: destination,
+            Month: month
+        }).then(() => {
+            alert(('success'))
+        })   
     }
-    }
-
-    function validateFields() {
-        let isValid = true;
-        if (!firstName || !lastName || !airline || !origin || !destination || !month) {
-            isValid = false;
-        }
-        return isValid;
-      }
 
     // for displaying verification msg after submit button clicked
     const [message, setMessage] = useState(null);
     const handleClick = () => {
-        if (!validateFields()) {
-            setMessage("One or more required fields are missing.");
-        } else {
         setMessage("Information updated for flight from " + origin + " to " + destination);
-        }
     };
 
     // For month dropdown menu
@@ -88,7 +74,7 @@ const AddData = () => {
                 <form onSubmit={handleSubmit}>
 
                     <Stack spacing={3}>
-                        <FormControl isRequired>
+
                         <Input
                         placeholder='First Name'
                         id="first_name_"
@@ -98,9 +84,7 @@ const AddData = () => {
                         value={firstName}
                         size='md'
                         />
-                        </FormControl>
 
-                        <FormControl isRequired>
                         <Input
                         placeholder='Last Name'
                         id="last_name_"
@@ -110,9 +94,7 @@ const AddData = () => {
                         value={lastName}
                         size='md'
                         />
-                        </FormControl>
 
-                        <FormControl isRequired>
                         <Input
                         placeholder='Airline ID (ex: AA)'
                         id="airline_"
@@ -122,9 +104,7 @@ const AddData = () => {
                         value={airline}
                         size='md'
                         />
-                        </FormControl>
 
-                        <FormControl isRequired>
                         <Input
                         placeholder='Origin Airport (ex: SFO)'
                         id="origin_"
@@ -134,9 +114,7 @@ const AddData = () => {
                         value={origin}
                         size='md'
                         />
-                        </FormControl>
 
-                        <FormControl isRequired>
                         <Input
                         placeholder='Destination Airport (ex: ORD)'
                         id="destination_"
@@ -146,20 +124,17 @@ const AddData = () => {
                         value={destination}
                         size='md'
                         />
-                        </FormControl>
 
                         <Menu>
                             <MenuButton as={Button}>{month || "Select Month"}</MenuButton>
                             <MenuList>
                                 {options.map(option => (
-                                <MenuItem key={option.value} value={option.label} onClick={handleOptionClick}>
+                                <MenuItem key={option.value} value={option.value} onClick={handleOptionClick}>
                                     {option.label}
                                 </MenuItem>
                                 ))}
                             </MenuList>
-                            
                         </Menu>
-                        
 
                     </Stack>
                     <Button type="submit" className='add-data-submit-button' onClick={handleClick}>Submit</Button> <br />
@@ -171,7 +146,7 @@ const AddData = () => {
             
 
             <Button className='add-data-back-button' onClick={navigateHome}>
-                Home
+                back
             </Button>
 
 

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
 
-import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text, FormControl } from '@chakra-ui/react'
+import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
 
 import axios from "axios";
 
@@ -19,25 +19,11 @@ const Home = () => {
         navigate('addData');
     }
 
-    function validateFields() {
-        let isValid = true;
-        if (!origin || !destination || !month) {
-            isValid = false;
-        }
-        return isValid;
-      }
-
-    // for displaying verification msg after submit button clicked
-    const [message, setMessage] = useState(null);
     // page navigation to Recommendations page
     const navigateToRec = () => {
-        if (!validateFields()) {
-            setMessage("One or more required fields are missing.");
-        } else {
         navigate('/recommendations', {state: {origin: origin,
                                     destination: destination,
                                     month: month}});
-        }
     }
 
     // page navigation to Update Name page
@@ -106,7 +92,7 @@ const Home = () => {
                 </Button> 
 
                 <Button className='update-name-button' onClick={navigateToUpName}>
-                    Update Personal Info
+                    Update Peronsal Info
                 </Button> 
             </Container>
             
@@ -124,7 +110,6 @@ const Home = () => {
 
                 <Stack spacing={3}>
 
-                    <FormControl isRequired>
                     <Input
                     placeholder='Origin Airport (ex: SFO)'
                     id="origin_"
@@ -134,9 +119,7 @@ const Home = () => {
                     value={origin}
                     size='md'
                     />
-                    </FormControl>
 
-                    <FormControl isRequired>
                     <Input
                     placeholder='Destination Airport (ex: ORD)'
                     id="destination_"
@@ -146,20 +129,17 @@ const Home = () => {
                     value={destination}
                     size='md'
                     />
-                    </FormControl>
 
-                    <FormControl isRequired>
                     <Menu>
                         <MenuButton as={Button}>{month || "Select Month"}</MenuButton>
                         <MenuList>
                             {options.map(option => (
-                            <MenuItem key={option.value} value={option.label} onClick={handleOptionClick}>
+                            <MenuItem key={option.value} value={option.value} onClick={handleOptionClick}>
                                 {option.label}
                             </MenuItem>
                             ))}
                         </MenuList>
                     </Menu>
-                    </FormControl>
 
                 </Stack>
                 

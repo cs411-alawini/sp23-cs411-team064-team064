@@ -1,12 +1,17 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text, FormControl } from '@chakra-ui/react'
+import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
 import '../App.css'
 
 import axios from "axios";
 
-const AddData = () => {
+const UpdateName = () => {
     
+    // variables for this page
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [newFirstName, setNewFirstName] = useState('');
+
     // navigate home
     let navigate = useNavigate();
     const navigateHome = () => {
@@ -14,7 +19,24 @@ const AddData = () => {
     }
 
     // handle submit should update first name
-    const handleSubmit = event => {
+    // const handleSubmit = event => {
+    //     console.log('handleSubmit run');
+    //     event.preventDefault();  // prevent page refresh
+
+    //     axios.put('http://localhost:3002/api/update-name', {
+    //         NewFirstName: newFirstName,
+    //         FirstName: firstName,
+    //         LastName: lastName
+    //     }).then(() => {
+    //         console.log('successful update')
+    //     })   
+    // }
+
+    // for displaying verification msg after user update button clicked
+    const [message, setMessage] = useState(null);
+    
+    //action for update name button
+    const handleClickUpdate = (event) => {
         console.log('handleSubmit run');
         event.preventDefault();  // prevent page refresh
 
@@ -25,18 +47,22 @@ const AddData = () => {
         }).then(() => {
             console.log('successful update')
         })   
-    }
-
-    // for displaying verification msg after user update button clicked
-    const [message, setMessage] = useState(null);
-    const handleClick = () => {
         setMessage("Name changed from " + firstName + " to " + newFirstName + "!");
     };
 
-    // variables for form below
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [newFirstName, setNewFirstName] = useState('');
+    // action for delete button
+    const handleClickDelete = (event) => {
+        console.log('handleSubmit run');
+        event.preventDefault();
+        axios.delete(`http://localhost:3002/api/delete-user/${firstName}/${lastName}`)
+        .then(() => {
+        window.location.reload();
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+        setMessage("Deleted user information for: " + firstName + " " + lastName);
+    };
 
     return (
         <div>
@@ -46,11 +72,10 @@ const AddData = () => {
                     Enter Details:
                 </Heading>
                 <br/>
-                <form onSubmit={handleSubmit}>
+                <form>
 
                     <Stack spacing={3}>
 
-                        <FormControl isRequired>
                         <Input
                         placeholder='First Name'
                         id="first_name_"
@@ -60,9 +85,7 @@ const AddData = () => {
                         value={firstName}
                         size='md'
                         />
-                        </FormControl>
 
-                        <FormControl isRequired>
                         <Input
                         placeholder='Last Name'
                         id="last_name_"
@@ -72,9 +95,7 @@ const AddData = () => {
                         value={lastName}
                         size='md'
                         />
-                        </FormControl>
 
-                        <FormControl isRequired>
                         <Input
                         placeholder='New First Name'
                         id="new_first_name_"
@@ -84,12 +105,12 @@ const AddData = () => {
                         value={newFirstName}
                         size='md'
                         />
-                        </FormControl>
 
                     </Stack>
 
                     <br />
-                    <Button type="submit" className='submit-button' onClick={handleClick}>Submit</Button> <br />
+                    <Button type="submit" className='submit-button' onClick={handleClickUpdate}>Update Name</Button> <br />
+                    <Button type="submit" className='submit-button-delete' onClick={handleClickDelete}>Delete User</Button> <br />
                     {message && <p>{message}</p>}
 
             </form>
@@ -105,4 +126,4 @@ const AddData = () => {
       )
 }
 
-export default AddData
+export default UpdateName

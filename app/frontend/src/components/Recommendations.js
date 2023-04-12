@@ -66,6 +66,8 @@ return (
                 {avgDelays.map(data => (
                     <p> {data.Airline} {Math.round(data.avgDelay * 100) / 100}</p>
                 ))}
+                <br/>
+                *Negative values signify early arrival
             </div>
 
             <Button onClick={navigateHome}>
