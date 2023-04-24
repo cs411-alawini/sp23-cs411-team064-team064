@@ -23,12 +23,17 @@ const Home = () => {
     const navigateToRec = () => {
         navigate('/recommendations', {state: {origin: origin,
                                     destination: destination,
-                                    month: month}});
+                                    month: monthMap.get(month)}});
     }
 
     // page navigation to Update Name page
     const navigateToUpName = () => {
         navigate('updateName');
+    }
+
+    // page navigation to View Flights page
+    const navigateToView = () => {
+        navigate('viewFlights');
     }
 
     // handle submit should insert new customer info into database
@@ -42,7 +47,6 @@ const Home = () => {
     useEffect(() => {
         axios.get('http://localhost:3002/').then((response) => {
             setnum(response.data[0].cCount)
-            // console.log(response.data[0].ccount);
         })
     }, [])
 
@@ -56,20 +60,34 @@ const Home = () => {
         const selectedOption = event.target.value;
         setMonth(selectedOption);
     };
-    const options = [
-        { label: "January", value: 1 },
-        { label: "February", value: 2 },
-        { label: "March", value: 3 },
-        { label: "April", value: 4 },
-        { label: "May", value: 5 },
-        { label: "June", value: 6 },
-        { label: "July", value: 7 },
-        { label: "August", value: 8 },
-        { label: "September", value: 9 },
-        { label: "October", value: 10 },
-        { label: "November", value: 11 },
-        { label: "December", value: 12 },
-      ];
+    const options = [ // month name options for dropdown menu
+        { label: "January", value: "January" },
+        { label: "February", value: "February" },
+        { label: "March", value: "March" },
+        { label: "April", value: "April" },
+        { label: "May", value: "May" },
+        { label: "June", value: "June" },
+        { label: "July", value: "July" },
+        { label: "August", value: "August" },
+        { label: "September", value: "September" },
+        { label: "October", value: "October" },
+        { label: "November", value: "November" },
+        { label: "December", value: "December" },
+    ];
+    const monthMap = new Map([  // maps from month name to numerical number 1-12
+        ["January", 1],
+        ["February", 2],
+        ["March", 3],
+        ["April", 4],
+        ["May", 5],
+        ["June", 6],
+        ["July", 7],
+        ["August", 8],
+        ["September", 9],
+        ["October", 10],
+        ["November", 11],
+        ["December", 12]
+    ]);
 
   return (
     <div>
@@ -87,15 +105,19 @@ const Home = () => {
                     Click for advanced queries
                 </Button> 
 
-                <Button className='contribute-button' onClick={navigateToAddData}>
+                <Button className='normal-button' onClick={navigateToAddData}>
                     Contribute to Database
                 </Button> 
 
-                <Button className='update-name-button' onClick={navigateToUpName}>
-                    Update Peronsal Info
+                <Button className='normal-button' onClick={navigateToUpName}>
+                    Update Personal Info
                 </Button> 
+
+                <Button className='normal-button' onClick={navigateToView}>
+                    View Personal Flights
+                </Button> 
+                
             </Container>
-            
             
         </div>
 
@@ -103,8 +125,11 @@ const Home = () => {
         <Container>
             <br/>
             <Heading>
-                Enter Flight Info:
+                Get Recommendations:
             </Heading>
+            <div>
+                Enter Flight Information: <br /> 
+            </div>
             <br/>
             <form onSubmit={handleSubmit}>
 

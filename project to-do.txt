@@ -1,0 +1,15 @@
+Create menu bar for all functionalities?
+
+High Priority Tasks:
+1. Stage 5 stuff
+2. New functionality:
+    - allow users to look up their flights, input: first, last name
+
+Mid Priority Tasks:
+1. For Delete:
+    - make sure deleting customer also deletes flight info
+2. For search query:
+    - display least cancelled airlines as well
+
+Low Priority Tasks:
+1. Create menu bar for all functionalities

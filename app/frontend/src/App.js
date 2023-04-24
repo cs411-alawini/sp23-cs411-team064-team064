@@ -6,6 +6,7 @@ import AdvQueries from './components/AdvQueries';
 import Recommendations from './components/Recommendations';
 import AddData from './components/AddData';
 import UpdateName from './components/UpdateName';
+import ViewFlights from './components/ViewFlights';
 
 import { ChakraProvider } from '@chakra-ui/react'
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/recommendations" element={<Recommendations />}></Route>
         <Route path="/addData" element={<AddData />}></Route>
         <Route path="/updateName" element={<UpdateName />}></Route>
+        <Route path="/viewFlights" element={<ViewFlights />}></Route>
       </Routes>
     </ChakraProvider>
   );

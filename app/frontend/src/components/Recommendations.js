@@ -46,7 +46,7 @@ const monthNames = [
 ];
 
 const months = Array.from({ length: 13 }, (_, index) => index + 1).map((month) => {
-return monthNames[month - 2];
+    return monthNames[month - 2];
 });
 
 return (

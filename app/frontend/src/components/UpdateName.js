@@ -18,20 +18,6 @@ const UpdateName = () => {
         navigate('/');
     }
 
-    // handle submit should update first name
-    // const handleSubmit = event => {
-    //     console.log('handleSubmit run');
-    //     event.preventDefault();  // prevent page refresh
-
-    //     axios.put('http://localhost:3002/api/update-name', {
-    //         NewFirstName: newFirstName,
-    //         FirstName: firstName,
-    //         LastName: lastName
-    //     }).then(() => {
-    //         console.log('successful update')
-    //     })   
-    // }
-
     // for displaying verification msg after user update button clicked
     const [message, setMessage] = useState(null);
     
