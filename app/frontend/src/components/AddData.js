@@ -28,7 +28,7 @@ const AddData = () => {
             params: {
             }
         }).then((response) => {
-            setFlightId(response.data[0].cCount + 1)
+            setFlightId(response.data[0].flightId + 1)
         }).catch((error) => {
             console.error(error);
         });
@@ -39,7 +39,17 @@ const AddData = () => {
         console.log('handleSubmit run');
         event.preventDefault();  // prevent page refresh
 
+        //insert data into Schedule
+        axios.post('http://localhost:3002/api/add-data-schedule', {
+            FlightId: flightId,
+            FirstName: firstName,
+            LastName: lastName
+        }).then(() => {
+            alert(('success'))
+        })  
+
         axios.post('http://localhost:3002/api/add-data-flights', {
+            FlightId: flightId,
             FirstName: firstName,
             LastName: lastName,
             Airline: airline,
@@ -49,14 +59,7 @@ const AddData = () => {
         }).then(() => {
             alert(('success'))
         })  
-        //insert data into Schedule
-        axios.post('http://localhost:3002/api/add-data-schedule', {
-            FlightId: flightId,
-            FirstName: firstName,
-            LastName: lastName
-        }).then(() => {
-            alert(('success'))
-        })  
+        
         // //insert data into Delays
         axios.post('http://localhost:3002/api/add-data-delays', {
             FlightId: flightId,
@@ -229,7 +232,6 @@ const AddData = () => {
             </Container>
 
             <br />
-            
 
             <Button className='add-data-back-button' onClick={navigateHome}>
                 back

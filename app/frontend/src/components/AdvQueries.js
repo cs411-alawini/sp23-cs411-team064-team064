@@ -1,12 +1,22 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Heading } from '@chakra-ui/react'
+import { Box, Table, Thead, Tbody, Tr, Th, Td, TableCaption } from '@chakra-ui/react';
+
 
 import '../App.css'
 
 import axios from "axios";
 
 const AdvQueries = () => {
+    // variables for this page
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const months = Array.from({ length: 13 }, (_, index) => index + 1).map((month) => {
+        return monthNames[month - 2];
+    });
     
     // navigate home
     let navigate = useNavigate();
@@ -35,28 +45,54 @@ const AdvQueries = () => {
     return (
         <div>
             <div>
-              Number of AA Flights Delayed over 10 minutes, by month: <br /> 
-              <div>
-                  {aaDelay.map(data => (
-                      <p> {data.Month}:  {data.cCount} </p>
-                  ))}
-              </div>
+                <Box mx="auto" w="30%" mb="20" mt="20">
+                    <Table variant="simple" size='sm'>
+                    <TableCaption placement="top" fontSize='l'>Number of AA Flights Delayed over 10 minutes, by month</TableCaption>
+                    <Thead>
+                        <Tr>
+                            <Th width="30%"> Month</Th>
+                            <Th># Flights Delayed</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {aaDelay.map((data) => (
+                        <Tr key={data.flightNumber}>
+                            <Td width="50%">{months[data.Month]}</Td>
+                            <Td>{data.cCount}</Td>
+                        </Tr>
+                        ))}
+                    </Tbody>
+                    </Table>
+                </Box>
+
             </div>
 
             <div>
-              Number of Flights Cancelled from SFO to DFW by Airline: <br /> 
-              <div>
-                  {canclledDFW.map(data => (
-                      <p> {data.Airline}:  {data.cCount} </p>
-                  ))}
-              </div>
+
+              <Box mx="auto" w="30%">
+                    <Table variant="simple" size='sm'>
+                    <TableCaption placement="top" fontSize='l'>Number of Flights Cancelled from SFO to DFW by Airline</TableCaption>
+                    <Thead>
+                        <Tr>
+                            <Th width="50%"> Airline</Th>
+                            <Th># Flights Delayed</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {canclledDFW.map((data) => (
+                        <Tr key={data.flightNumber}>
+                            <Td width="30%">{data.Airline}</Td>
+                            <Td>{data.cCount}</Td>
+                        </Tr>
+                        ))}
+                    </Tbody>
+                    </Table>
+                </Box>
             </div>
 
-            <div>
-                <Button onClick={navigateHome}>
-                    Back
-                </Button>
-            </div>
+            <Button onClick={navigateHome}>
+                Back
+            </Button>
         </div>
 
       )

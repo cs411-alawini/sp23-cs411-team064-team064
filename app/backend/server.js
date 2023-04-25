@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
 
 // advanced query 1
 app.get('/api/delay-10', function(req, res) {
-        const sqlDelay10 = "SELECT Month, COUNT(*) AS cCount FROM Flights NATURAL JOIN Delays WHERE Airline = 'AA' AND DepartureDelay > 10 GROUP BY Month LIMIT 15";
+        const sqlDelay10 = "SELECT Month, COUNT(*) AS cCount FROM Flights NATURAL JOIN Delays WHERE Airline = 'AA' AND ArrivalDelay > 10 GROUP BY Month LIMIT 15";
         db.query(sqlDelay10, (err, result) => {
                 res.send(result);
                 console.log(err);
@@ -59,20 +59,9 @@ app.get('/api/airlines-least-delayed', function(req, res) {
         });
 });
 
-// Update name
-app.put('/api/update-name', function(req, res) {
-        const NewFirstName = req.body.NewFirstName;
-        const FirstName = req.body.FirstName;
-        const LastName = req.body.LastName;
-
-        const sqlNameUpdate = "UPDATE Customer SET First_Name = ? WHERE First_Name = ? AND Last_Name = ?";
-        db.query(sqlNameUpdate, [NewFirstName, FirstName, LastName], (err, result) => {
-                console.log(err);
-        })
-});
-
 // add new flight data
 app.post('/api/add-data-flights', function(req, res) {
+        const Flight_Id_ = req.body.FlightId;
         const FirstName_ = req.body.FirstName;
         const LastName_ = req.body.LastName;
         const Airline_ = req.body.Airline;
@@ -85,14 +74,14 @@ app.post('/api/add-data-flights', function(req, res) {
                 console.log(err);
                 console.log(FirstName_, LastName_)
         });
-        const sqlInsertFlights = "INSERT INTO Flights (Airline, Origin, Destination, Month) VALUES (?,?,?,?)";
-        db.query(sqlInsertFlights, [Airline_, Origin_, Destination_, Month_], (err, result) => {
+        const sqlInsertFlights = "INSERT INTO Flights (FlightId, Airline, Origin, Destination, Month) VALUES (?,?,?,?,?)";
+        db.query(sqlInsertFlights, [Flight_Id_, Airline_, Origin_, Destination_, Month_], (err, result) => {
                 console.log(err);
         });
 });
 //getting latest flightId
 app.get('/api/get-flight-id', function(req, res) {
-        const sqlFlight = "SELECT MAX(FlightId) AS cCount FROM Flights";
+        const sqlFlight = "SELECT MAX(FlightId) AS flightId FROM Flights";
         db.query(sqlFlight, (err, result) => {
                 res.send(result);
                 console.log(result);
@@ -130,11 +119,10 @@ app.post('/api/add-data-cancelled', function(req, res) {
 
 // delete user info
 app.delete("/api/delete-user/:firstName/:lastName", (require, response) => {
-        // const D_FlightId = require.params.D_FlightId; // convert to string
         const FirstName_ = require.params.firstName;
         const LastName_ = require.params.lastName;
         const sqlSafe = "SET SQL_SAFE_UPDATES = 0"
-        const sqlDelete = "DELETE FROM Customer WHERE First_Name = ? AND Last_Name = ?";
+        const sqlDelete = "DELETE FROM Schedule WHERE FirstName = ? AND LastName = ?";
         db.query(sqlSafe, (err, result) => {
                 console.log(err);
         });
@@ -146,6 +134,29 @@ app.delete("/api/delete-user/:firstName/:lastName", (require, response) => {
                 response.sendStatus(200);
             }
         });
+});
+
+// Find flights
+app.get('/api/view-flights/:firstName/:lastName', function(req, res) {
+        const FirstName_ = req.params.firstName;
+        const LastName_ = req.params.lastName;
+        const sqlFindFlight = "SELECT Airline, Origin, Destination, Month, ArrivalDelay FROM Schedule NATURAL JOIN Flights NATURAL JOIN Delays WHERE FirstName = ? AND LastName = ?";
+        db.query(sqlFindFlight, [FirstName_, LastName_], (err, result) => {
+            res.send(result);
+            console.log(err);
+        });
+});
+
+// Update name
+app.put('/api/update-name', function(req, res) {
+        const NewFirstName = req.body.NewFirstName;
+        const FirstName = req.body.FirstName;
+        const LastName = req.body.LastName;
+
+        const sqlNameUpdate = "UPDATE Schedule SET FirstName = ? WHERE FirstName = ? AND LastName = ?";
+        db.query(sqlNameUpdate, [NewFirstName, FirstName, LastName], (err, result) => {
+                console.log(err);
+        })
 });
 
 app.listen(3002, function () {

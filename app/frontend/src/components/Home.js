@@ -101,7 +101,7 @@ const Home = () => {
                 Number of Flights in Database: {num} <br /> 
             </Center>
             <Container className='button-container'>            
-                <Button onClick={navigateToAdv}>
+                <Button className='normal-button' onClick={navigateToAdv}>
                     Click for advanced queries
                 </Button> 
 
@@ -124,7 +124,7 @@ const Home = () => {
         <div>
         <Container>
             <br/>
-            <Heading>
+            <Heading className='recommendation-section'>
                 Get Recommendations:
             </Heading>
             <div>
