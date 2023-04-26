@@ -1,8 +1,3 @@
 High Priority Tasks:
-1. Stage 5 stuff
-
-Mid Priority Tasks:
-1. For search query:
-    - display least cancelled airlines as well
-
-Test all functions of menu bar
+1. After delete: make another stored procedure to update reiability list
+2. make sidebar not autorefresh

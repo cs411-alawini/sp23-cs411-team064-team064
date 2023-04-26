@@ -24,6 +24,16 @@ app.get('/', function(req, res) {
         })
 });
 
+// Overall Best Airlines:
+app.post('/api/best-airlines', function(req, res) {
+        const Airline_ = req.body.Airline;
+        const sqlBest = "CALL Result(?);";
+        db.query(sqlBest, [Airline_], (err, result) => {
+                res.send(result[0]);
+                console.log(result[0]);
+        })
+});
+
 // advanced query 1
 app.get('/api/delay-10', function(req, res) {
         const sqlDelay10 = "SELECT Month, COUNT(*) AS cCount FROM Flights NATURAL JOIN Delays WHERE Airline = 'AA' AND ArrivalDelay > 10 GROUP BY Month LIMIT 15";

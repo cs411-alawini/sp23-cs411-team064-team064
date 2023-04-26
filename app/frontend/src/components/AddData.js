@@ -233,7 +233,7 @@ const AddData = () => {
 
             <br />
 
-            <Button className='add-data-back-button' onClick={navigateHome}>
+            <Button onClick={navigateHome} marginLeft="31%">
                 back
             </Button>
 

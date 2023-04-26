@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import '../App.css'
 import { Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, IconButton } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { Box, Table, Thead, Tbody, Tr, Th, Td, TableCaption } from '@chakra-ui/react';
 import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
 
 
@@ -13,30 +13,12 @@ const Home = () => {
 
     // page navigation to Advanced Queries page
     let navigate = useNavigate();
-    const navigateToAdv = () => {
-        navigate('advQueries');
-    }
-
-    // page navigation to Advanced Queries page
-    const navigateToAddData = () => {
-        navigate('addData');
-    }
 
     // page navigation to Recommendations page
     const navigateToRec = () => {
         navigate('/recommendations', {state: {origin: origin,
                                     destination: destination,
                                     month: monthMap.get(month)}});
-    }
-
-    // page navigation to Update Name page
-    const navigateToUpName = () => {
-        navigate('updateName');
-    }
-
-    // page navigation to View Flights page
-    const navigateToView = () => {
-        navigate('viewFlights');
     }
 
     // handle submit should insert new customer info into database
@@ -69,13 +51,26 @@ const Home = () => {
     const handleOpen = () => setIsOpen(true);
     const handleClose = () => setIsOpen(false);
 
-    // retrieve adv query 1
+    // retrieve flight count
     const [num, setnum] = useState("0");
     useEffect(() => {
         axios.get('http://localhost:3002/').then((response) => {
             setnum(response.data[0].cCount)
         })
     }, [])
+
+    const [best, setBest] = useState([]);
+    useEffect(() => {
+        const airline = 'AA'
+        axios.post('http://localhost:3002/api/best-airlines', { airline })
+        .then(response => {
+            setBest(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}, []);
+
 
     // variables for form below
     const [origin, setOrigin] = useState('');
@@ -131,32 +126,40 @@ const Home = () => {
             <Center>
                 Number of Flights in Database: {num} <br /> 
             </Center>
-            {/* <Container className='button-container'>            
-                <Button className='normal-button' onClick={navigateToAdv}>
-                    Click for advanced queries
-                </Button> 
-
-                <Button className='normal-button' onClick={navigateToAddData}>
-                    Contribute to Database
-                </Button> 
-
-                <Button className='normal-button' onClick={navigateToUpName}>
-                    Update Personal Info
-                </Button> 
-
-                <Button className='normal-button' onClick={navigateToView}>
-                    View Personal Flights
-                </Button> 
-            </Container> */}
+            {/* <Center> */}
+                <div>
+                <Box mx="auto" w="30%" marginTop="1%">
+                <Table variant="simple" size='sm'>
+                <TableCaption placement="top" fontSize='l'>Best Overall Airlines</TableCaption>
+                <Thead>
+                    <Tr>
+                        <Th >Airline</Th>
+                        <Th >Average Delay Time (Minutes)</Th>
+                        <Th >Cancellation Rate</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {best.map((data) => (
+                    <Tr key={data.flightNumber}>
+                        <Td >{data.Airline}</Td>
+                        <Td >{data.avgDelay}</Td>
+                        <Td>{Math.round(data.avgCancel * 100) / 100}</Td>
+                    </Tr>
+                    ))}
+                </Tbody>
+                </Table>
+                </Box>
+                <Box fontSize='sm' textAlign='center' mt='2' marginBottom="2%">
+                    *Negative values signify early arrival
+                </Box>
+                </div>
+            {/* </Center> */}
             
         </div>
 
         <div>
         <Container>
             <br/>
-            {/* <Heading className='recommendation-section'>
-                Get Recommendations:
-            </Heading> */}
             <div>
                 Enter Flight Information: <br /> 
             </div>
