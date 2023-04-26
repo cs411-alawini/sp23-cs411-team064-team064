@@ -103,8 +103,8 @@ const UpdateName = () => {
             </Container>
 
 
-            <Button className='update-name-back-button' onClick={navigateHome}>
-                Back to Main Page
+            <Button onClick={navigateHome} marginLeft="37.5%" marginTop="2%">
+                back
             </Button>
 
 

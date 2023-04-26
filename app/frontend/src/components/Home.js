@@ -1,8 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
-
+import { Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, IconButton } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import { Button, Center, Heading, Container, Stack, Input, Menu, MenuButton, MenuList, MenuItem, Text } from '@chakra-ui/react'
+
 
 import axios from "axios";
 
@@ -41,6 +44,30 @@ const Home = () => {
         console.log('submitted form');
         event.preventDefault();  // prevent page refresh
     }
+
+    // Sidebar
+    const Sidebar = ({ isOpen, onClose }) => {
+        return (
+          <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>Navigation</DrawerHeader>
+              <DrawerBody>
+                <Stack spacing={4}>
+                  <Button as={Link} to="/advQueries">Advanced Queries</Button>
+                  <Button as={Link} to="/addData">Contribute to Database</Button>
+                  <Button as={Link} to="/updateName">Update Personal Info</Button>
+                  <Button as={Link} to="/viewFlights">View Personal Flights</Button>
+                </Stack>
+              </DrawerBody>
+            </DrawerContent>
+          </Drawer>
+        );
+    };
+    const [isOpen, setIsOpen] = useState(false);
+    const handleOpen = () => setIsOpen(true);
+    const handleClose = () => setIsOpen(false);
 
     // retrieve adv query 1
     const [num, setnum] = useState("0");
@@ -92,6 +119,10 @@ const Home = () => {
   return (
     <div>
         <div>
+            <p>
+                <Button onClick={handleOpen} margin="1rem 0 0 1rem" variant="outline" colorScheme="gray">Navigate</Button>
+                <Sidebar isOpen={isOpen} onClose={handleClose} />
+            </p>
             <Center className="title">
                 <Heading>
                 Flight Recommendations
@@ -100,7 +131,7 @@ const Home = () => {
             <Center>
                 Number of Flights in Database: {num} <br /> 
             </Center>
-            <Container className='button-container'>            
+            {/* <Container className='button-container'>            
                 <Button className='normal-button' onClick={navigateToAdv}>
                     Click for advanced queries
                 </Button> 
@@ -116,17 +147,16 @@ const Home = () => {
                 <Button className='normal-button' onClick={navigateToView}>
                     View Personal Flights
                 </Button> 
-                
-            </Container>
+            </Container> */}
             
         </div>
 
         <div>
         <Container>
             <br/>
-            <Heading className='recommendation-section'>
+            {/* <Heading className='recommendation-section'>
                 Get Recommendations:
-            </Heading>
+            </Heading> */}
             <div>
                 Enter Flight Information: <br /> 
             </div>

@@ -45,7 +45,7 @@ const AdvQueries = () => {
     return (
         <div>
             <div>
-                <Box mx="auto" w="30%" mb="20" mt="20">
+                <Box mx="auto" w="30%" mb="3%" mt="3%">
                     <Table variant="simple" size='sm'>
                     <TableCaption placement="top" fontSize='l'>Number of AA Flights Delayed over 10 minutes, by month</TableCaption>
                     <Thead>
@@ -90,7 +90,7 @@ const AdvQueries = () => {
                 </Box>
             </div>
 
-            <Button onClick={navigateHome}>
+            <Button onClick={navigateHome} marginLeft="31%" marginTop="3%">
                 Back
             </Button>
         </div>

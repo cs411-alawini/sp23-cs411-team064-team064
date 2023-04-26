@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react'
 
 import '../App.css'
 
-import { Button, Heading, Stack } from '@chakra-ui/react'
+import { Button, Heading, Center } from '@chakra-ui/react'
+import { Box, Table, Thead, Tbody, Tr, Th, Td, TableCaption } from '@chakra-ui/react';
+
 
 import axios from "axios";
 
@@ -51,30 +53,49 @@ const months = Array.from({ length: 13 }, (_, index) => index + 1).map((month) =
 
 return (
     <div>
-        <Stack spacing={3}>
+        <Center spacing={3} marginTop="3%">
             <div>
                 <Heading>
                     Your Recommendations:
                 </Heading>
+                <Center>
                 Origin: {originAirport} <br/>
                 Destination: {destinationAirport} <br/>
                 Month: {months[month_]} <br/>
+                </Center>
             </div>
-            <div>
-                Best Airlines based on Travel Details: <br/>
-                Airline, Average Delay Time (Minutes) <br/>
-                {avgDelays.map(data => (
-                    <p> {data.Airline} {Math.round(data.avgDelay * 100) / 100}</p>
-                ))}
-                <br/>
+        </Center>
+
+        <div>
+
+            <Box mx="auto" w="30%">
+                <Table variant="simple" size='sm'>
+                <TableCaption placement="top" fontSize='l'>Best Airlines based on Travel Details</TableCaption>
+                <Thead>
+                    <Tr>
+                        <Th width="50%"> Airline</Th>
+                        <Th>Arrival Delay (Minutes)</Th>
+                    </Tr>
+                </Thead>
+                <Tbody>
+                    {avgDelays.map((data) => (
+                    <Tr key={data.flightNumber}>
+                        <Td width="30%">{data.Airline}</Td>
+                        <Td>{Math.round(data.avgDelay * 100) / 100}</Td>
+                    </Tr>
+                    ))}
+                </Tbody>
+                </Table>
+            </Box>
+            <Box fontSize='sm' textAlign='center' mt='2'>
                 *Negative values signify early arrival
-            </div>
+            </Box>
 
-            <Button onClick={navigateHome}>
-                Try another flight
-            </Button>
+        </div>
 
-        </Stack>
+        <Button onClick={navigateHome} marginLeft="31%" marginTop="5%">
+            Back
+        </Button>
     </div>
   )
 }

@@ -23,7 +23,6 @@
 .add-data-submit-button {
   background-color: rgb(116, 194, 116);
   margin-top: 2%;
-  /* margin-left: 31%; */
   color: green;
 }
 
@@ -55,5 +54,9 @@
 
 .add-data-back-button {
   margin-top: 2%;
+  margin-left: 31%;
+}
+
+.super-left-back-button {
   margin-left: 31%;
 }

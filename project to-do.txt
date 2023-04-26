@@ -5,5 +5,4 @@ Mid Priority Tasks:
 1. For search query:
     - display least cancelled airlines as well
 
-Low Priority Tasks:
-1. Create menu bar for all functionalities
+Test all functions of menu bar
