@@ -1,3 +1,0 @@
-High Priority Tasks:
-1. After delete: make another stored procedure to update reiability list
-2. make sidebar not autorefresh

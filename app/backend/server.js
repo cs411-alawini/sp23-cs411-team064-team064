@@ -27,7 +27,7 @@ app.get('/', function(req, res) {
 // Overall Best Airlines:
 app.post('/api/best-airlines', function(req, res) {
         const Airline_ = req.body.Airline;
-        const sqlBest = "CALL Result(?);";
+        const sqlBest = "CALL Result1(?);";
         db.query(sqlBest, [Airline_], (err, result) => {
                 res.send(result[0]);
                 console.log(result[0]);
